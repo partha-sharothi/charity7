@@ -318,3 +318,8 @@ class Support(models.Model):
     details = models.TextField()
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     support_status = models.CharField(max_length=50, choices=SUPPORT_STATUS_CHOICES, default='pending')
+
+    
+class BtcAddress(models.Model):
+    user = models.OneToOneField('UserProfileInfo', on_delete=models.CASCADE,null=True, blank=True)
+    btc_address = models.CharField(max_length=250, null=True, blank=True)

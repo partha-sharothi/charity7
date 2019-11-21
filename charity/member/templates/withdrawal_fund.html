@@ -12,6 +12,8 @@
               <h3 class="pb-4 text-center">WITHDRAWAL FUND</h3>
               <h5 class="pb-4 text-center">your current account balance is {{ user.userprofileinfo.account }}$</h5>
               <h6 class="pb-4 text-center">{{ user.username }}</h6>
+              <p>your btc address is {{ btc }}</p>
+              <p>If you want to change it, Please inform in support .</p>
             <form method="POST">
                     {% csrf_token %}
 
@@ -24,13 +26,14 @@
           {% endfor %}
          </div>
 
+<!-- 
              <div class="input-group mb-3">
                  <label for="{{ form.bitcoin_address.id_for_label }}"><strong>{{ form.bitcoin_address.label }}</strong></label>
                    {% render_field form.bitcoin_address class="form-control w-100" placeholder='bitcoin_address' %}
                   {% for error in form.bitcoin_address.errors %}
                   <div class="text-danger">{{ error }}</div>
                   {% endfor %}
-                </div>
+                </div> -->
                     <button class="btn btn-block btn-success mt-4" type="submit">Submit</button>
             </form>
             </div>

@@ -42,12 +42,12 @@ class AccoutActivationForm(forms.Form):
 
 class WithdrawalFundForm(forms.Form):
     amount = forms.IntegerField() 
-    bitcoin_address = forms.CharField(max_length = 200)
+    
 
 
 class BitcoinDetailForm(forms.Form):
     bitcoin_address = forms.CharField(max_length = 200)
-    otp = forms.CharField(max_length = 150)
+
 
 class SupportForm(ModelForm):
     class Meta:

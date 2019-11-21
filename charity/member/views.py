@@ -4,7 +4,7 @@ from django_tables2 import SingleTableView
 from .forms import UserProfileInfoForm, UserForm, BalanceTransferForm, AccoutActivationForm ,WithdrawalFundForm, BitcoinDetailForm,UserFormUpdate,SupportForm
 # from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .models import UserProfileInfo, Activity, create_histry , Histry, WithdrawalHistry
+from .models import UserProfileInfo, Activity, create_histry , Histry, WithdrawalHistry, BtcAddress
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from django.contrib.auth.models import User
 from .tables import UserInfoTable ,HistryTable, WithdrawalHistryTable
@@ -632,18 +632,28 @@ def home12(request):
     return render(request,'index_dash.html',{'reward':reward, 'user_activity':user_activity,'referral_url':referral_url,'single_leg':single_leg,'points':points,'account':account_ammount,'total_income':total_income}) 
 
 def bitcoin_detail(request, *args, **kwargs):
+    user_id = request.user
+    profile = get_object_or_404(UserProfileInfo, user_profile=user_id)
+    user_btcs = BtcAddress.objects.filter(user=profile).values('btc_address')
+    btc_list = [entry for entry in user_btcs]
+    btc_names=[f['btc_address'] for f in btc_list]
+    if btc_list !=[]:
+        return render(request, 'bitcoin_detail.html',{'btc':btc_names[0]})
+
     if request.method == "POST":
         form_is = BitcoinDetailForm(data=request.POST)
         if form_is.is_valid():
             
             print(form_is.cleaned_data['bitcoin_address'])
-            print(form_is.cleaned_data['otp'])
-            return redirect('/')
+            btc = BtcAddress.objects.create(user = profile, btc_address = form_is.cleaned_data['bitcoin_address'])
+
+            btc.save()
+            return redirect('/dashboard/')
         
     form = BitcoinDetailForm()
+   
 
-    return render(request, 'bitcoin_detail.html',{'form':form}) 
-
+    return render(request, 'bitcoin_detail.html',{'form':form }) 
 
 
 def downline_member_list(request, *args, **kwargs):
@@ -837,7 +847,22 @@ def activate_account(request, *args, **kwargs):
 
     return render(request, 'activate_account.html',{'form':form}) 
 
+
 def withdrawal_fund(request, *args, **kwargs):
+    # user_id = request.user
+    # profile = get_object_or_404(UserProfileInfo, user_profile=user_id)
+    # btcs = BtcAddress.objects.filter(user=profile)
+
+    user_id = request.user
+    profile = get_object_or_404(UserProfileInfo, user_profile=user_id)
+    user_btcs = BtcAddress.objects.filter(user=profile).values('btc_address')
+    btc_list = [entry for entry in user_btcs]
+    btc_names=[f['btc_address'] for f in btc_list]
+
+    if request.method == "GET":
+        form = WithdrawalFundForm()
+        if btc_list !=[]:
+            return render(request, 'withdrawal_fund.html',{'form':form,'btc':btc_names[0]})
     
     if request.method == "POST":
         form_is = WithdrawalFundForm(data=request.POST)
@@ -848,13 +873,13 @@ def withdrawal_fund(request, *args, **kwargs):
             profile = get_object_or_404(UserProfileInfo, user_profile=user_id)
             print(profile)
             print(form_is.cleaned_data['amount'])
-            print(form_is.cleaned_data['bitcoin_address'])
+            
             if profile.account>=form_is.cleaned_data['amount']:
                 
                 widthdra = WithdrawalHistry.objects.create()
                 widthdra.user = profile
                 widthdra.ammount = form_is.cleaned_data['amount']
-                widthdra.btc_address = form_is.cleaned_data['bitcoin_address']
+                widthdra.btc_address = btc_names[0]
                 profile.account = profile.account - form_is.cleaned_data['amount']
                 
                 create_histry(user=profile,withdrawal=form_is.cleaned_data['amount'],withdrawal_date=utc.localize(datetime.now()))
@@ -866,10 +891,13 @@ def withdrawal_fund(request, *args, **kwargs):
 
             # create_histry()
             return redirect('/dashboard/')
-        
-    form = WithdrawalFundForm()
+    # form = WithdrawalFundForm()
 
-    return render(request, 'withdrawal_fund.html',{'form':form}) 
+
+    # return render(request, 'withdrawal_fund.html',{'form':form }) 
+    return HttpResponse("<h1>Please set your btc address</h1>")
+
+
 
 def reward_income(request, *args, **kwargs):
     return render(request, 'reward_income.html') 
