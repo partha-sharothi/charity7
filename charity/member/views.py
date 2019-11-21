@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpResponse
-from django_tables2 import SingleTableView 
+from django_tables2 import SingleTableView ,SingleTableMixin
 from .forms import UserProfileInfoForm, UserForm, BalanceTransferForm, AccoutActivationForm ,WithdrawalFundForm, BitcoinDetailForm,UserFormUpdate,SupportForm
 # from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
@@ -801,10 +801,11 @@ class SingleLineListView(SingleTableView):
     # table_class = SingleLegUserTable
     context_object_name = 'applications'
     template_name = 'singleleg.html'
+    paginate_by = 30
     def get_queryset(self, *args, **kwargs):
         user_id = self.request.user.id  
         application = get_object_or_404(UserProfileInfo, id=user_id)
-        k=UserProfileInfo.objects.filter(application_date__gt = application.application_date, confirm=True)
+        k=UserProfileInfo.objects.filter(application_date__gt = application.application_date,confirm=True).order_by('confirmation_date').reverse()
 
         return k  
 
@@ -925,16 +926,18 @@ class WithdrawalReport(SingleTableView):
 #     return render(request, 'histry.html',{'histry':histry})
     
 
-class HistryTableView(SingleTableView):
-    model = Histry
+class HistryTableView(SingleTableMixin,ListView):
+       
     table_class = HistryTable
-    context_object_name = 'histry'
+    
     template_name = 'histry.html'
+    paginate_by = 20
     
     def get_queryset(self, *args, **kwargs):
         user_id = self.request.user.id  
         userprofile = get_object_or_404(UserProfileInfo, id=user_id)
-        k = Histry.objects.filter(user=userprofile)
+
+        k = Histry.objects.filter(user=userprofile).order_by('invoice_date').reverse()
 
         return k  
 
