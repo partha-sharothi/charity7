@@ -967,14 +967,18 @@ def btc_activarion_button(request):
     for charge in range(len(charge_list)):
         if 'custom' in charge_list[charge]['metadata']:
             charges.append(charge_list[charge])
-            charge_custom_data = charge_list[charge]['metadata']['custom']
-            charge_custom_data_list.append(charge_custom_data)
+            if charge_list[charge]['timeline'][1]['status'] != 'CANCELED':
+                charge_custom_data = charge_list[charge]['metadata']['custom']
+                charge_custom_data_list.append(charge_custom_data)
         if 'email' in charge_list[charge]['metadata']:
-            charge_email = charge_list[charge]['metadata']['email']
-            charge_email_list.append(charge_email)
+            if charge_list[charge]['timeline'][1]['status'] != 'CANCELED':
+                charge_email = charge_list[charge]['metadata']['email']
+                charge_email_list.append(charge_email)
         if 'name' in charge_list[charge]['metadata']:
-            charge_name = charge_list[charge]['metadata']['name']
-            charge_name_list.append(charge_name)
+            if charge_list[charge]['timeline'][1]['status'] != 'CANCELED':
+                charge_name = charge_list[charge]['metadata']['name']
+                charge_name_list.append(charge_name)
+
     print(user.btc_activation)
     print(str(request.username))
     print(str(request.email))
