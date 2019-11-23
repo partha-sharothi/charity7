@@ -4,7 +4,7 @@ from django_tables2 import SingleTableView ,SingleTableMixin
 from .forms import UserProfileInfoForm, UserForm, BalanceTransferForm, AccoutActivationForm ,WithdrawalFundForm, BitcoinDetailForm,UserFormUpdate,SupportForm
 # from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .models import UserProfileInfo, Activity, create_histry , Histry, WithdrawalHistry, BtcAddress
+from .models import UserProfileInfo, Activity, create_histry , Histry, WithdrawalHistry, BtcAddress, Support
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 from django.contrib.auth.models import User
 from .tables import UserInfoTable ,HistryTable, WithdrawalHistryTable
@@ -990,6 +990,39 @@ def btc_activarion_button(request):
         return redirect('/go/')
     return None
 
+
+
+######------------------->support<------------------#########
+class SupportCreateView(CreateView):
+
+    def get(self, request, *args, **kwargs):
+        user_id = request.user
+        profile = get_object_or_404(UserProfileInfo, user_profile=user_id)
+        context = {'form': SupportForm()}
+        return render(request, 'support_form.html', context)
+
+    def post(self, request, *args, **kwargs):
+        user_id = request.user
+        profile = get_object_or_404(UserProfileInfo, user_profile=user_id)
+        form = SupportForm(data=request.POST)
+        if form.is_valid():
+            support = form.save(commit=False)
+            support.user=profile
+            support.save()
+            # return HttpResponseRedirect(reverse_lazy('memn:detail', args=[book.id]))
+        return render(request, 'support_form.html', {'form': form})
+
+
+class SupportListView(ListView):
+    model = Support
+    context_object_name = "messages"
+    template_name = 'support_list.html'
+    def get_queryset(self, *args, **kwargs):
+        user_id = self.request.user.id  
+        userprofile = get_object_or_404(UserProfileInfo, id=user_id)
+        k = Support.objects.filter(user=userprofile)
+
+        return k 
 
 
 

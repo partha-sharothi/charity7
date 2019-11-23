@@ -52,4 +52,4 @@ class BitcoinDetailForm(forms.Form):
 class SupportForm(ModelForm):
     class Meta:
         model = Support
-        fields = "__all__"
+        fields = ('user','subject','details')

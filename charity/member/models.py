@@ -128,7 +128,10 @@ class Activity(models.Model):
                 
                 self.save()
             
-        return None    
+        return None  
+
+    def __str__(self):
+        return self.user.user_profile.username  
 
 
 
@@ -246,6 +249,10 @@ class Histry(models.Model):
     withdrawal = models.FloatField(null=True, blank=True)
     withdrawal_date = models.DateTimeField(null=True, blank=True)
 
+    def __str__(self):
+        return self.user.user_profile.username
+
+
 def create_histry(user,**kwarg):
     histry = Histry.objects.create()
     histry.user = user
@@ -302,6 +309,10 @@ class WithdrawalHistry(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     payment_status = models.CharField(max_length=50, choices=PAYMENT_STATUS_CHOICES, default='pending')
 
+    def __str__(self):
+        return self.user.user_profile.username
+
+
 
 
 class Support(models.Model):
@@ -319,7 +330,14 @@ class Support(models.Model):
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     support_status = models.CharField(max_length=50, choices=SUPPORT_STATUS_CHOICES, default='pending')
 
+    def __str__(self):
+        return self.user.user_profile.username
+
+
     
 class BtcAddress(models.Model):
     user = models.OneToOneField('UserProfileInfo', on_delete=models.CASCADE,null=True, blank=True)
     btc_address = models.CharField(max_length=250, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.user_profile.username

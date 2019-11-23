@@ -253,16 +253,16 @@
                   <li class="nav-item nav-dropdown">
                     <a class="nav-link nav-dropdown-toggle">
                       <i class="nav-icon icon-credit-card"></i>Support</a>
-                  <ul class ="nav-dropdown-items">
-                      <li class="nav-item">
-                          <a class="nav-link" href="#">
-                            <i class="nav-icon fa fa-puzzle-piece"></i>Support Ticket</a>
-                        </li>
+                      <ul class ="nav-dropdown-items">
                         <li class="nav-item">
-                          <a class="nav-link" href="#">
-                            <i class="nav-icon fa fa-puzzle-piece"></i>Support Inbox</a>
-                        </li>
-                  </ul>  
+                            <a class="nav-link" href="{% url 'member:support_create' pk=user.pk %}">
+                              <i class="nav-icon fa fa-puzzle-piece"></i>Support Form</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'member:user_support_list' pk=user.pk %}">
+                              <i class="nav-icon fa fa-puzzle-piece"></i>Support Inbox</a>
+                          </li>
+                    </ul>  
                   </li>
                   
           

@@ -28,6 +28,8 @@ urlpatterns = [
     path('dashboard/withdrawal_report/<int:pk>/',views.WithdrawalReport.as_view(),name = 'withdrawal_report'),
     path('cripto/',views.web_hook, name='rendaring'),
     path('histry/<int:pk>/',views.HistryTableView.as_view(), name='histry'),
+    path('support/<int:pk>',views.SupportCreateView.as_view(), name='support_create'),
+    path('user_support_list/<int:pk>',views.SupportListView.as_view(), name='user_support_list'),
     # path('bitcoin/',views.bitcoinpay, name='rendaring'),
     # path('coinbase_webhook/', views.coinbaseWebhook, name="coinbase_webhook"),
 
