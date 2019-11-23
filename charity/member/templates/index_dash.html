@@ -131,6 +131,8 @@
   <h1><p align="center"><a href="{% url 'member:rendaring' %}">activate your account with btc & any user</a></p></h1>	
 
 </header>
+<h1 class="d-lg-none d-md-none d-xl-none"><p align="center"><a href="{% url 'member:rendaring' %}">activate your account with btc & any user</a></p></h1>
+
 
       {% if user.userprofileinfo.btc_activation %}
 
@@ -138,12 +140,13 @@
               <h1><p align="center">activate your account with user</p></h1>	
   
             </header>
+            <h1 class="d-lg-none d-md-none d-xl-none"><p align="center">activate your account with user</p></h1>
       {% elif user.userprofileinfo.user_activation %}
           <header class="app-header navbar">
               <h1><p align="center"><a href="{% url 'member:rendaring' %}">activate your account with btc</a></p></h1>	
     
           </header>
-
+          <h1 class="d-lg-none d-md-none d-xl-none" ><p align="center"><a href="{% url 'member:rendaring' %}">activate your account with btc</a></p></h1>
       {% endif %}
 
 
