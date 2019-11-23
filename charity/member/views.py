@@ -877,15 +877,22 @@ def withdrawal_fund(request, *args, **kwargs):
             
             if profile.account>=form_is.cleaned_data['amount']:
                 
-                widthdra = WithdrawalHistry.objects.create()
-                widthdra.user = profile
-                widthdra.ammount = form_is.cleaned_data['amount']
-                widthdra.btc_address = btc_names[0]
-                profile.account = profile.account - form_is.cleaned_data['amount']
+                if form_is.cleaned_data['amount']>=10 and form_is.cleaned_data['amount']<200 :
                 
-                create_histry(user=profile,withdrawal=form_is.cleaned_data['amount'],withdrawal_date=utc.localize(datetime.now()))
-                profile.save()
-                widthdra.save()
+                    widthdra = WithdrawalHistry.objects.create()
+                    widthdra.user = profile
+                    widthdra.ammount = form_is.cleaned_data['amount']
+                    widthdra.btc_address = btc_names[0]
+                    profile.account = profile.account - form_is.cleaned_data['amount']
+                
+                    create_histry(user=profile,withdrawal=form_is.cleaned_data['amount'],withdrawal_date=utc.localize(datetime.now()))
+                    profile.save()
+                    widthdra.save()
+
+                elif form_is.cleaned_data['amount']<10 :
+                    return HttpResponse("<h1>Please enter amount at least 10$ </h1>")
+                else:
+                    return HttpResponse("<h1>Please enter amount at best 200$ </h1>")
             else:
                 return HttpResponse("<h1>you have no enough balance for this withdrawal</h1>")    
             
