@@ -877,7 +877,7 @@ def withdrawal_fund(request, *args, **kwargs):
             
             if profile.account>=form_is.cleaned_data['amount']:
                 
-                if form_is.cleaned_data['amount']>=10 and form_is.cleaned_data['amount']<200 :
+                if form_is.cleaned_data['amount']>=10 and form_is.cleaned_data['amount']<=200 :
                 
                     widthdra = WithdrawalHistry.objects.create()
                     widthdra.user = profile
