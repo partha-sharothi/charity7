@@ -129,9 +129,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-SESSION_COOKIE_AGE = 40  
-SESSION_SAVE_EVERY_REQUEST = True
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# SESSION_COOKIE_AGE = 40  
+# SESSION_SAVE_EVERY_REQUEST = True
 
 
 STATIC_URL = '/static/'
@@ -148,11 +148,11 @@ MEDIA_URL = '/media/'
 # )
 
 
-EMAIL_HOST = 'in-v3.mailjet.com'
-# EMAIL_HOST_USER = 'forkanvalo01'
-EMAIL_HOST_USER = '95533828308d85109feea4625f50f803'
-EMAIL_HOST_PASSWORD = '9de2e52e987f2ffd6a777653a4a12168'
+# EMAIL_HOST = 'in-v3.mailjet.com'
+# # EMAIL_HOST_USER = 'forkanvalo01'
+# EMAIL_HOST_USER = '95533828308d85109feea4625f50f803'
+# EMAIL_HOST_PASSWORD = '9de2e52e987f2ffd6a777653a4a12168'
 
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL='forkan.charity@gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL='forkan.charity@gmail.com'
