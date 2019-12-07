@@ -876,7 +876,7 @@ def withdrawal_fund(request, *args, **kwargs):
             print(profile)
             print(form_is.cleaned_data['amount'])
             
-            if profile.account>=form_is.cleaned_data['amount']:
+            if (profile.account*(30/100))>=form_is.cleaned_data['amount']:
                 
                 if form_is.cleaned_data['amount']>=10 and form_is.cleaned_data['amount']<=200 :
                 
