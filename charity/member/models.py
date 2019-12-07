@@ -17,13 +17,13 @@ utc=pytz.UTC
 
 # Create your models here.
 class UserProfileInfo(models.Model):
-    user = models.OneToOneField(User,on_delete='CASCADE',name='user_profile')
+    user = models.OneToOneField(User,on_delete=models.CASCADE,name='user_profile')
     phone_number = PhoneNumberField()
     confirm = models.BooleanField(default=False)
     confirmation_date = models.DateTimeField( null=True, blank=True)
     application_date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     sponsor = models.ForeignKey('UserProfileInfo', on_delete=models.CASCADE,null=True, blank=True, related_name ='sponsored' )
-    country = models.ForeignKey('Country',on_delete='CASCADE')
+    country = models.ForeignKey('Country',on_delete=models.CASCADE)
     active = models.BooleanField(default=False)
     # wallet = models.OneToOneField('EWallet',on_delete='CASCADE',null=True, blank=True)
     account = models.FloatField(default=0)

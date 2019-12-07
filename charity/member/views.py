@@ -725,6 +725,7 @@ class UserCreateViewDash(generic.View):
         # print(user_info_form.is_valid())
         if user_info_form.is_valid() and profile_info_form.is_valid():
             user = user_info_form.save()
+            user.username = user.username.lower()
             user.set_password(user.password)
             user.is_staff = True
             user.save()
@@ -823,7 +824,7 @@ def activate_account(request, *args, **kwargs):
     if request.method == "POST":
         form_is = AccoutActivationForm(data=request.POST)
         if form_is.is_valid():
-            x = form_is.cleaned_data['username']
+            x = form_is.cleaned_data['username'].lower()
             mr_x = get_object_or_404(User, username = x)
             z = get_object_or_404(UserProfileInfo,user_profile = mr_x)
             y = form_is.cleaned_data['amount']
