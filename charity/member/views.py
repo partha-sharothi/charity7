@@ -707,7 +707,7 @@ class UserCreateViewDash(generic.View):
         user_id = kwargs.get('pk')
         # user_id = self.request.user
         profile = get_object_or_404(UserProfileInfo, user_profile=user_id)
-        referral_user = get_object_or_404(User, id=profile.id)
+        referral_user = get_object_or_404(User, id=user_id)
         profile_info_form = UserProfileInfoForm()
         user_info_form = UserForm()
         return render(request, 'form.html', {'referral_user': referral_user, 'profile_info_form': profile_info_form, 'user_info_form':user_info_form})
