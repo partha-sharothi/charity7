@@ -38,7 +38,7 @@ def return_test(request):
 @login_required
 def own_activation(request):
     user_id = request.user.id
-    user_is = get_object_or_404(UserProfileInfo, id=user_id)
+    user_is = get_object_or_404(UserProfileInfo, user_profile=user_id)
     
     if (user_is.user_activation == True) and (user_is.btc_activation == True):
         if user_is.confirm == False:
